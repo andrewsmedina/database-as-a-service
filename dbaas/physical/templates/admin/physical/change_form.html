@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <style type="text/css">
+    .field-address .vTextField {width: 110px;}
+    .field-port .vIntegerField { width: 100px;}
+    .table .span3 { width: 100px;}
+    input[name*="tags"] {width: 200px;}
+    .field-hostname {width: auto;}
+  </style>
+{% endblock %}

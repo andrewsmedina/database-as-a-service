@@ -10,6 +10,7 @@ from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields.encrypted import EncryptedCharField
 from util.models import BaseModel
+from taggit.managers import TaggableManager
 
 
 LOG = logging.getLogger(__name__)
@@ -232,9 +233,11 @@ class Instance(BaseModel):
     address = models.CharField(verbose_name=_("Instance address"), max_length=200)
     port = models.IntegerField(verbose_name=_("Instance port"))
     databaseinfra = models.ForeignKey(DatabaseInfra, related_name="instances", on_delete=models.CASCADE)
-    is_active = models.BooleanField(verbose_name=_("Is instance active"), default=True)
+    is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
     is_arbiter = models.BooleanField(verbose_name=_("Is arbiter"), default=False)
     hostname = models.ForeignKey(Host)
+
+    tags = TaggableManager(verbose_name=u'Tags')
 
     class Meta:
         unique_together = (
@@ -278,6 +281,7 @@ class Instance(BaseModel):
         except GenericDriverError, e:
             LOG.exception(e)
             raise ValidationError(e.message)
+
 
 #####################################################################################################
 # SIGNALS
